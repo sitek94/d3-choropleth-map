@@ -12,8 +12,8 @@ import {
   scaleQuantile,
 } from 'd3';
 import { loadAndProcessData } from './loadAndProcessData';
-import { colorLegend } from './colorLegend';
-// import { legend } from './legend';
+
+import { legend } from './legend';
 // Constants
 const 
   width = 975, 
@@ -75,12 +75,15 @@ loadAndProcessData()
         .attr('stroke', 'blue')
         .attr('d', pathGenerator(states));
 
+    // Append color legend
+    const legendSvg = g.append(() => legend({
+      title: `Adults age 25 and older with a bachelor's degree or higher`,
+      color: colorScale,
+      tickFormat: x => Math.round(x) + '%'
+    }));
+
+    legendSvg.attr('y', `${height - 100}`);
+
     
-    
-        // colorLegendG.append(() => legend({
-        //   color: scaleQuantize([1, 10], ),
-        //   title: "Unemployment rate (%)"
-        // }))
-        console.log(colorScale.domain());
         
   })

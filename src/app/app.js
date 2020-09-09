@@ -14,13 +14,28 @@ import {
 import { loadAndProcessData } from './loadAndProcessData';
 
 import { legend } from './legend';
+
 // Constants
 const 
-  width = 975, 
-  height = 610;
+  // Svg dimensions
+  width = 960, 
+  height = 600;
+
+const margin = { 
+  top: 0, 
+  right: 20, 
+  bottom: 75, 
+  left: 180 
+};
+// inner width and height
+const innerWidth = width - margin.left - margin.right;
+const innerHeight = height - margin.top - margin.bottom;
+
+// Root element
+const root = select('#root');
 
 // Svg
-const svg = select('svg')
+const svg = root.append('svg')
   .attr('width', width)
   .attr('height', height);
 
@@ -39,10 +54,6 @@ svg.call(zoom()
 function zoomed({ transform }) {
   g.attr("transform", transform);
 }
-
-// Color scale
-// const colorScale = scaleQuantize([1, 50], schemeBuPu[9]);
-
 
 loadAndProcessData()
   .then(([counties, states]) => {
@@ -76,7 +87,7 @@ loadAndProcessData()
         .attr('d', pathGenerator(states));
 
     // Append color legend
-    const legendSvg = g.append(() => legend({
+    const legendSvg = root.append(() => legend({
       title: `Adults age 25 and older with a bachelor's degree or higher`,
       color: colorScale,
       tickFormat: x => Math.round(x) + '%'

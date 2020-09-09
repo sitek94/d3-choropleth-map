@@ -12,10 +12,23 @@ export const loadAndProcessData = () =>
     json(countiesData)
   ])
   .then(([jsonEducationData, jsonCountiesData]) => {
+
+    // Use feature and mesh from topojson-client to process the data
     const counties = feature(jsonCountiesData, jsonCountiesData.objects.counties).features;
     const states = mesh(jsonCountiesData, jsonCountiesData.objects.states, (a, b) => a !== b);
 
-    return [counties, states, jsonEducationData];
+    // Create object with properties of each county 
+    const rowById = jsonEducationData.reduce((accumulator, d) => {
+      accumulator[d.fips] = d;
+      return accumulator;
+    }, {})
+
+    // Add properties to each county
+    counties.forEach(d => {
+      d.properties = rowById[d.id];
+    })
+
+    return [counties, states];
   })
 
 

@@ -1,7 +1,9 @@
 import {
   select,
   geoPath,
-  zoom
+  zoom,
+  scaleOrdinal,
+  schemeCategory10
 } from 'd3';
 import { loadAndProcessData } from './loadAndProcessData';
 
@@ -30,22 +32,25 @@ function zoomed({ transform }) {
   g.attr("transform", transform);
 }
 
+// Color scale
+const colorScale = scaleOrdinal(schemeCategory10);
+
 loadAndProcessData()
-  .then(([counties, states, jsonEducationData]) => {
+  .then(([counties, states]) => {
 
-
+    
     // Counties paths
     g.selectAll('path')
       .data(counties)
       .enter().append('path')
         .attr('class', 'county')
-        .attr('fill', 'black')
+        .attr('fill', d => colorScale(d.properties.area_name))
         .attr('stroke-width', '0.05px')
         .attr('stroke', '#fff')
         .attr('d', pathGenerator)
           // Add simple tooltip
           .append('title')
-          .text((d, i) => jsonEducationData[i].area_name);
+          .text(d => d.properties.area_name);
 
     // States path
     g.append('path')

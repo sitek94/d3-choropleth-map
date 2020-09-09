@@ -4,7 +4,8 @@ import {
   geoPath,
 } from 'd3';
 import {
-  feature
+  feature,
+  mesh
 } from 'topojson-client';
 
 // Constants
@@ -30,14 +31,20 @@ Promise.all([
     console.log(jsonEducationData);
     console.log(jsonCountiesData);
 
-    const counties = feature(jsonCountiesData, jsonCountiesData.objects.counties);
-    
+    const counties = feature(jsonCountiesData, jsonCountiesData.objects.counties).features;
+    const states = mesh(jsonCountiesData, jsonCountiesData.objects.states, (a, b) => a !== b);
     console.log(counties);
-    const path = geoPath();
+    const pathGenerator = geoPath();
 
+    // Counties paths
     svg.selectAll('path')
-      .data(counties.features)
-      .enter().append("path")
-        .attr("fill", 'black')
-        .attr("d", d => path(d))
+      .data(counties)
+      .enter().append('path')
+        .attr('fill', 'black')
+        .attr('d', pathGenerator);
+
+    // States path
+    svg.append('path')
+        .attr('stroke', 'blue')
+        .attr('d', pathGenerator(states));
   })

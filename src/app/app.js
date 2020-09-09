@@ -3,10 +3,17 @@ import {
   geoPath,
   zoom,
   scaleOrdinal,
-  schemeCategory10
+  scaleQuantize,
+  schemeCategory10,
+  schemeBuPu,
+  schemeBlues,
+  extent,
+  schemeSpectral,
+  scaleQuantile,
 } from 'd3';
 import { loadAndProcessData } from './loadAndProcessData';
-
+import { colorLegend } from './colorLegend';
+// import { legend } from './legend';
 // Constants
 const 
   width = 975, 
@@ -20,6 +27,7 @@ const svg = select('svg')
 // Container g element
 const g = svg.append('g');
 
+// Path generator
 const pathGenerator = geoPath();
 
 // Zoom functionality
@@ -33,18 +41,27 @@ function zoomed({ transform }) {
 }
 
 // Color scale
-const colorScale = scaleOrdinal(schemeCategory10);
+// const colorScale = scaleQuantize([1, 50], schemeBuPu[9]);
+
 
 loadAndProcessData()
   .then(([counties, states]) => {
 
+    console.log(counties);
     
+    // Color value accessor
+    const colorValue = d => d.properties.bachelorsOrHigher;
+
+    const colorScale = scaleQuantile()
+      .domain(extent(counties, colorValue))
+      .range(schemeBuPu[9]);
+
     // Counties paths
     g.selectAll('path')
       .data(counties)
       .enter().append('path')
         .attr('class', 'county')
-        .attr('fill', d => colorScale(d.properties.area_name))
+        .attr('fill', d => colorScale(colorValue(d)))
         .attr('stroke-width', '0.05px')
         .attr('stroke', '#fff')
         .attr('d', pathGenerator)
@@ -57,4 +74,13 @@ loadAndProcessData()
         .attr('fill', 'none')
         .attr('stroke', 'blue')
         .attr('d', pathGenerator(states));
+
+    
+    
+        // colorLegendG.append(() => legend({
+        //   color: scaleQuantize([1, 10], ),
+        //   title: "Unemployment rate (%)"
+        // }))
+        console.log(colorScale.domain());
+        
   })

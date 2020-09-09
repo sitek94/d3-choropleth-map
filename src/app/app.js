@@ -1,13 +1,9 @@
 import {
   select,
-  json,
   geoPath,
   zoom
 } from 'd3';
-import {
-  feature,
-  mesh
-} from 'topojson-client';
+import { loadAndProcessData } from './loadAndProcessData';
 
 // Constants
 const 
@@ -22,6 +18,8 @@ const svg = select('svg')
 // Container g element
 const g = svg.append('g');
 
+const pathGenerator = geoPath();
+
 // Zoom functionality
 svg.call(zoom()
   .extent([[0, 0], [width, height]])
@@ -32,23 +30,9 @@ function zoomed({ transform }) {
   g.attr("transform", transform);
 }
 
-// Data urls from freeCodeCamp challenge
-const educationData = 'https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/for_user_education.json';
-const countiesData = 'https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/counties.json';
+loadAndProcessData()
+  .then(([counties, states, jsonEducationData]) => {
 
-// Fetch education and counties data
-Promise.all([
-    json(educationData), 
-    json(countiesData)
-  ])
-  .then(([jsonEducationData, jsonCountiesData]) => {
-    console.log(jsonEducationData);
-    console.log(jsonCountiesData);
-
-    const counties = feature(jsonCountiesData, jsonCountiesData.objects.counties).features;
-    const states = mesh(jsonCountiesData, jsonCountiesData.objects.states, (a, b) => a !== b);
-    console.log(counties);
-    const pathGenerator = geoPath();
 
     // Counties paths
     g.selectAll('path')

@@ -25,10 +25,15 @@ body {
   padding-top: 10px;
 }
 
+/* ROOT */
+.root {
+  position: relative;
+}
+
 /* MAP */
 svg.map {
   display: block;
-  margin: 0 auto 10px;
+  margin: 0 auto;
 }
 
 /* LEGEND */
@@ -74,9 +79,35 @@ svg.legend {
   margin-bottom: 10px;
 }
 
+/* DESCRIPTION */
 .description {
   font-size: 1.6em;
   color: var(--gray-40);
+}
+
+/* RESET BUTTON */
+.reset-btn {
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  transform: translateX(320px);
+
+  padding: 5px 10px;
+  cursor: pointer;
+  border: 1px solid var(--gray-40);
+  outline: none;
+  font-size: .8em;
+  text-transform: uppercase;
+  border-radius: 30px;
+  color: var(--gray-40);
+  background-color: var(--gray-15);
+  transition: all .3s;
+
+  &:hover {
+    color: var(--gray-10);
+    background-color: var(--gray-40);
+  }
+
 }
 
 /* TOOLTIP */

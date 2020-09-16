@@ -5,6 +5,7 @@ import {
   scaleQuantize,
   schemeBuPu,
   extent,
+  zoomIdentity,
 } from 'd3';
 import { loadAndProcessData } from './loadAndProcessData';
 
@@ -18,13 +19,7 @@ const
   height = width / aspectRatio;
 
 // Root element
-const root = select('#root');
-
-// Title
-root.append('h1')
-  .attr('id', 'title')
-  .attr('class', 'title')
-  .html('United States Educational Attainment');
+const root = select('.root');
 
 // Legend container
 const legendContainer = root.append('div');
@@ -36,20 +31,33 @@ const svg = root.append('svg')
   .attr('viewBox', [0, 0, 975, 610]);
 
 // Container g element
-const g = svg.append('g');
+const containerG = svg.append('g')
 
 // Path generator
 const pathGenerator = geoPath();
 
 // Zoom functionality
-svg.call(zoom()
+const mapZoom = zoom()
   .extent([[0, 0], [width, height]])
   .scaleExtent([1, 8])
-  .on('zoom', zoomed));
+  .on('zoom', zoomed);
+
+// Apply zoom to 
+containerG.call(mapZoom);
+
+
 // Zoom function
 function zoomed({ transform }) {
-  g.attr('transform', transform);
+  containerG.attr('transform', transform);
 }
+// Reset zoom button
+const resetBtn = select('.reset-btn')
+  .on('click', () => {
+    containerG.transition()
+    .duration(750)
+    .call(mapZoom.transform, zoomIdentity);
+  })
+  
 
 loadAndProcessData()
   .then(([counties, states]) => {
@@ -70,7 +78,7 @@ loadAndProcessData()
     }));    
 
     // Counties paths
-    g.selectAll('path')
+    containerG.selectAll('path')
       .data(counties)
       .enter().append('path')
         .attr('class', 'county-path')
@@ -83,7 +91,7 @@ loadAndProcessData()
           .text(d => d.properties.area_name);
 
     // States path
-    g.append('path')
+    containerG.append('path')
         .attr('class', 'states-path')
         .attr('d', pathGenerator(states));
 

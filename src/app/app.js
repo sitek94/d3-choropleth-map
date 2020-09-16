@@ -97,7 +97,6 @@ loadAndProcessData()
         .attr('data-education', d => d.properties.bachelorsOrHigher)
           // Add simple tooltip
           .append('title')
-          .attr('id', 'tooltip')
           .text(d => d.properties.area_name);
 
     // States path

@@ -2,16 +2,9 @@ import {
   select,
   geoPath,
   zoom,
-  scaleOrdinal,
   scaleQuantize,
-  schemeCategory10,
-  scaleSequential,
-  interpolateBlues,
   schemeBuPu,
-  schemeBlues,
   extent,
-  schemeSpectral,
-  scaleQuantile,
 } from 'd3';
 import { loadAndProcessData } from './loadAndProcessData';
 
@@ -27,7 +20,8 @@ const
 // Root element
 const root = select('#root');
 
-const title = root.append('h1')
+// Title
+root.append('h1')
   .attr('id', 'title')
   .attr('class', 'title')
   .html('United States Educational Attainment');
@@ -60,12 +54,10 @@ loadAndProcessData()
     // Color value accessor
     const colorValue = d => d.properties.bachelorsOrHigher;
 
+    // Color scale
     const colorScale = scaleQuantize()
       .domain(extent(counties, colorValue))
       .range(schemeBuPu[9]);
-
-      console.log(schemeBuPu[9]);
-      console.log(schemeBuPu[11]);
 
     // Counties paths
     g.selectAll('path')

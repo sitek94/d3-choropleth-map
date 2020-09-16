@@ -42,7 +42,7 @@ svg.legend {
 }
 
 /* COUNTY PATH */
-.county-path {
+.county {
   stroke-width: 0.05px;
   stroke: var(--white);
 
@@ -54,7 +54,7 @@ svg.legend {
 }
 
 /* STATES PATH */
-.states-path {
+.states {
   fill: none;
   stroke: var(--gray-20);
 }
@@ -88,16 +88,16 @@ svg.legend {
 /* RESET BUTTON */
 .reset-btn {
   position: absolute;
-  top: 7px;
+  top: 4px;
   left: 50%;
   transform: translateX(320px);
 
   padding: 5px 10px;
   cursor: pointer;
-  border: 1px solid var(--gray-40);
   outline: none;
   font-size: .8em;
   text-transform: uppercase;
+  border: 1px solid var(--gray-40);
   border-radius: 30px;
   color: var(--gray-40);
   background-color: var(--gray-15);
@@ -107,13 +107,11 @@ svg.legend {
     color: var(--gray-10);
     background-color: var(--gray-40);
   }
-
 }
 
 /* TOOLTIP */
 .tooltip {
   position: absolute;
-  width: 150px;
   padding: 10px;
   border-radius: 6px;
   color: var(--white);

@@ -10,10 +10,11 @@ import {
 import { loadAndProcessData } from './loadAndProcessData';
 
 import { legend } from './legend';
+import { tooltip } from './tooltip';
 
 // Constants
 const 
-  // Svg dimensions
+  // Svg dimensions and aspect ratio
   aspectRatio = 975 / 610,
   width = 975,
   height = width / aspectRatio;
@@ -42,22 +43,20 @@ const mapZoom = zoom()
   .scaleExtent([1, 8])
   .on('zoom', zoomed);
 
-// Apply zoom to 
+// Apply zoom to the container
 containerG.call(mapZoom);
-
 
 // Zoom function
 function zoomed({ transform }) {
   containerG.attr('transform', transform);
 }
-// Reset zoom button
-const resetBtn = select('.reset-btn')
+// Reset zoom button on click handler
+select('.reset-btn')
   .on('click', () => {
     containerG.transition()
     .duration(750)
     .call(mapZoom.transform, zoomIdentity);
-  })
-  
+  });
 
 loadAndProcessData()
   .then(([counties, states]) => {
@@ -75,25 +74,34 @@ loadAndProcessData()
       title: `Adults age 25 and older with a bachelor's degree or higher (2010-2014)`,
       color: colorScale,
       tickFormat: x => Math.round(x) + '%'
-    }));    
+    }));
+
+    // Get event handlers from the tooltip
+    const { handleMouseover, handleMouseout } = tooltip();
 
     // Counties paths
     containerG.selectAll('path')
       .data(counties)
       .enter().append('path')
-        .attr('class', 'county-path')
+        .attr('class', 'county')
         .attr('fill', d => colorScale(colorValue(d)))
         .attr('stroke-width', '0.05px')
         .attr('stroke', '#fff')
         .attr('d', pathGenerator)
+        // Event handlers
+        .on('mouseover', handleMouseover)
+        .on('mouseout', handleMouseout)
+
+        // Data attributes
+        .attr('data-fips', d => d.properties.fips)
+        .attr('data-education', d => d.properties.bachelorsOrHigher)
           // Add simple tooltip
           .append('title')
+          .attr('id', 'tooltip')
           .text(d => d.properties.area_name);
 
     // States path
     containerG.append('path')
-        .attr('class', 'states-path')
+        .attr('class', 'states')
         .attr('d', pathGenerator(states));
-
-       
   })

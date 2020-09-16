@@ -26,6 +26,9 @@ root.append('h1')
   .attr('class', 'title')
   .html('United States Educational Attainment');
 
+// Legend container
+const legendContainer = root.append('div');
+
 // Svg
 const svg = root.append('svg')
   .attr('class', 'map')
@@ -59,6 +62,13 @@ loadAndProcessData()
       .domain(extent(counties, colorValue))
       .range(schemeBuPu[9]);
 
+    // Append color legend
+    legendContainer.append(() => legend({
+      title: `Adults age 25 and older with a bachelor's degree or higher (2010-2014)`,
+      color: colorScale,
+      tickFormat: x => Math.round(x) + '%'
+    }));    
+
     // Counties paths
     g.selectAll('path')
       .data(counties)
@@ -77,10 +87,5 @@ loadAndProcessData()
         .attr('class', 'states-path')
         .attr('d', pathGenerator(states));
 
-    // Append color legend
-    root.append(() => legend({
-      title: `Adults age 25 and older with a bachelor's degree or higher`,
-      color: colorScale,
-      tickFormat: x => Math.round(x) + '%'
-    }));       
+       
   })

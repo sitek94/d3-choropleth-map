@@ -138,6 +138,8 @@ export const legend = ({
       .call(tickAdjust)
       .call(g => g.select(".domain").remove())
       .call(g => g.append("text")
+        .attr('id', 'description')
+        .attr('class', 'description')
         .attr("x", width / 2)
         .attr("y", marginTop + marginBottom - height - 6)
         .attr("fill", "currentColor")

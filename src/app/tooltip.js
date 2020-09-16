@@ -43,6 +43,7 @@ export const tooltip = () => {
 
   // Update tooltip position and data-year
   tooltip
+    .attr('data-education', bachelorsOrHigher)
     .style("left", pageX + xOffset + "px")		
     .style("top", pageY + yOffset + "px");
   }

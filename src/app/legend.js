@@ -27,6 +27,8 @@ export const legend = ({
 } = {}) => {
 
   const svg = create("svg")
+      .attr('id', 'legend')
+      .attr('class', 'legend')
       .attr("width", width)
       .attr("height", height)
       .attr("viewBox", [0, 0, width, height])
@@ -136,10 +138,10 @@ export const legend = ({
       .call(tickAdjust)
       .call(g => g.select(".domain").remove())
       .call(g => g.append("text")
-        .attr("x", marginLeft)
+        .attr("x", width / 2)
         .attr("y", marginTop + marginBottom - height - 6)
         .attr("fill", "currentColor")
-        .attr("text-anchor", "start")
+        .attr("text-anchor", "middle")
         .attr("font-weight", "bold")
         .text(title));
 

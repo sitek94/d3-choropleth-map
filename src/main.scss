@@ -19,50 +19,58 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;  
+  background-color: var(--gray-15);
 
   height: 100vh;
-  overflow-x: auto;
-  overflow-y: hidden;
+  padding-top: 10px;
 }
 
-svg {
+/* MAP */
+svg.map {
   display: block;
-  margin: 10px auto;
+  margin: 0 auto 10px;
 }
 
-/* CELL */
-.county:hover {
-  stroke: var(--black);
-  stroke-opacity: .5;
-  fill: var(--color-hover);
+/* LEGEND */
+svg.legend {
+  margin: 0 auto;
 }
 
-/* TICK */
-.tick text {
-  font-size: 1.2em;
-  fill: var(--gray-40);
+/* COUNTY PATH */
+.county-path {
+  stroke-width: 0.05px;
+  stroke: var(--white);
+
+  &:hover {
+    stroke: var(--black);
+    stroke-opacity: .5;
+    fill: var(--color-hover);
+  }
 }
 
-.tick line {
+/* STATES PATH */
+.states-path {
+  fill: none;
   stroke: var(--gray-20);
 }
 
-/* AXIS */
-.axis-label {
-  font-size: 5em;
-  fill: var(--gray-30);
+/* TICK */
+.tick {
+  text {
+    font-size: 1.2em;
+    fill: var(--gray-40);
+  }
+
+  line {
+    stroke: var(--gray-20);
+  }
 }
 
 /* TITLE */
 .title {
+  text-align: center;
   font-size: 1.8em;
-  fill: var(--gray-40);
-}
-
-/* DESCRIPTION */
-.description {
-  font-size: 1.5em;
-  fill: var(--gray-30);
+  color: var(--gray-40);
 }
 
 /* TOOLTIP */

@@ -5,6 +5,8 @@ import {
   scaleOrdinal,
   scaleQuantize,
   schemeCategory10,
+  scaleSequential,
+  interpolateBlues,
   schemeBuPu,
   schemeBlues,
   extent,
@@ -18,26 +20,23 @@ import { legend } from './legend';
 // Constants
 const 
   // Svg dimensions
-  width = 960, 
-  height = 600;
-
-const margin = { 
-  top: 0, 
-  right: 20, 
-  bottom: 75, 
-  left: 180 
-};
-// inner width and height
-const innerWidth = width - margin.left - margin.right;
-const innerHeight = height - margin.top - margin.bottom;
+  aspectRatio = 975 / 610,
+  width = 975,
+  height = width / aspectRatio;
 
 // Root element
 const root = select('#root');
 
+const title = root.append('h1')
+  .attr('id', 'title')
+  .attr('class', 'title')
+  .html('United States Educational Attainment');
+
 // Svg
 const svg = root.append('svg')
+  .attr('class', 'map')
   .attr('width', width)
-  .attr('height', height);
+  .attr('viewBox', [0, 0, 975, 610]);
 
 // Container g element
 const g = svg.append('g');
@@ -49,29 +48,30 @@ const pathGenerator = geoPath();
 svg.call(zoom()
   .extent([[0, 0], [width, height]])
   .scaleExtent([1, 8])
-  .on("zoom", zoomed));
+  .on('zoom', zoomed));
 // Zoom function
 function zoomed({ transform }) {
-  g.attr("transform", transform);
+  g.attr('transform', transform);
 }
 
 loadAndProcessData()
   .then(([counties, states]) => {
-
-    console.log(counties);
     
     // Color value accessor
     const colorValue = d => d.properties.bachelorsOrHigher;
 
-    const colorScale = scaleQuantile()
+    const colorScale = scaleQuantize()
       .domain(extent(counties, colorValue))
       .range(schemeBuPu[9]);
+
+      console.log(schemeBuPu[9]);
+      console.log(schemeBuPu[11]);
 
     // Counties paths
     g.selectAll('path')
       .data(counties)
       .enter().append('path')
-        .attr('class', 'county')
+        .attr('class', 'county-path')
         .attr('fill', d => colorScale(colorValue(d)))
         .attr('stroke-width', '0.05px')
         .attr('stroke', '#fff')
@@ -82,19 +82,13 @@ loadAndProcessData()
 
     // States path
     g.append('path')
-        .attr('fill', 'none')
-        .attr('stroke', 'blue')
+        .attr('class', 'states-path')
         .attr('d', pathGenerator(states));
 
     // Append color legend
-    const legendSvg = root.append(() => legend({
+    root.append(() => legend({
       title: `Adults age 25 and older with a bachelor's degree or higher`,
       color: colorScale,
       tickFormat: x => Math.round(x) + '%'
-    }));
-
-    legendSvg.attr('y', `${height - 100}`);
-
-    
-        
+    }));       
   })

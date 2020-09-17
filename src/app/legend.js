@@ -1,3 +1,9 @@
+/*
+* This is a slightly modified version of Color Legend by Mike Bostock
+* You can find the original here:
+* https://observablehq.com/@d3/color-legend
+*/
+
 import {
   axisBottom,
   create,

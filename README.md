@@ -1,11 +1,7 @@
-# D3 Template
+# United States Educational Attainment - Choropleth Map 
 
-A template for data visualization projects with d3.
+See the project live here: https://sitek94.github.io/d3-choropleth-map/.
 
-* d3 (surpirse, surprise)
-* bundled with webpack
-* webpack-dev-server
-* development and production configs
-* sass
-* cache busting
-* minified html, css and js
+This Choropleth Map shows the data about Education Attainment in United States for years 2010-2014.
+
+The data comes from [freeCodeCamp](https://www.freecodecamp.org/learn/data-visualization/data-visualization-projects/visualize-data-with-a-choropleth-map).

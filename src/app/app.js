@@ -8,7 +8,6 @@ import {
   zoomIdentity,
 } from 'd3';
 import { loadAndProcessData } from './loadAndProcessData';
-
 import { legend } from './legend';
 import { tooltip } from './tooltip';
 
@@ -36,7 +35,6 @@ const containerG = svg.append('g')
   .attr('height', height)
   .attr('viewBox', [0, 0, width, height]);
 
-
 // Path generator
 const pathGenerator = geoPath();
 
@@ -63,7 +61,7 @@ select('.reset-btn')
 
 loadAndProcessData()
   .then(([counties, states]) => {
-    
+
     // Color value accessor
     const colorValue = d => d.properties.bachelorsOrHigher;
 
@@ -81,11 +79,6 @@ loadAndProcessData()
 
     // Get event handlers from the tooltip
     const { handleMouseover, handleMouseout } = tooltip();
-
-    // States path
-    containerG.append('path')
-        .attr('class', 'states')
-        .attr('d', pathGenerator(states));
 
     // Counties paths
     containerG.selectAll('path')
@@ -107,5 +100,8 @@ loadAndProcessData()
           .append('title')
           .text(d => d.properties.area_name);
 
-    
+    // States path
+    containerG.append('path')
+      .attr('class', 'states')
+      .attr('d', pathGenerator(states));
   })

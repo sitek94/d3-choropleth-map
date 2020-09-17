@@ -15,9 +15,8 @@ import { tooltip } from './tooltip';
 // Constants
 const 
   // Svg dimensions and aspect ratio
-  aspectRatio = 975 / 610,
   width = 975,
-  height = width / aspectRatio;
+  height = 610;
 
 // Root element
 const root = select('.root');
@@ -29,10 +28,14 @@ const legendContainer = root.append('div');
 const svg = root.append('svg')
   .attr('class', 'map')
   .attr('width', width)
-  .attr('viewBox', [0, 0, 975, 610]);
+  .attr('viewBox', [0, 0, width, height]);
 
 // Container g element
 const containerG = svg.append('g')
+  .attr('width', width)
+  .attr('height', height)
+  .attr('viewBox', [0, 0, width, height]);
+
 
 // Path generator
 const pathGenerator = geoPath();
@@ -44,7 +47,7 @@ const mapZoom = zoom()
   .on('zoom', zoomed);
 
 // Apply zoom to the container
-containerG.call(mapZoom);
+svg.call(mapZoom);
 
 // Zoom function
 function zoomed({ transform }) {
@@ -53,7 +56,7 @@ function zoomed({ transform }) {
 // Reset zoom button on click handler
 select('.reset-btn')
   .on('click', () => {
-    containerG.transition()
+    svg.transition()
     .duration(750)
     .call(mapZoom.transform, zoomIdentity);
   });
@@ -79,6 +82,11 @@ loadAndProcessData()
     // Get event handlers from the tooltip
     const { handleMouseover, handleMouseout } = tooltip();
 
+    // States path
+    containerG.append('path')
+        .attr('class', 'states')
+        .attr('d', pathGenerator(states));
+
     // Counties paths
     containerG.selectAll('path')
       .data(counties)
@@ -99,8 +107,5 @@ loadAndProcessData()
           .append('title')
           .text(d => d.properties.area_name);
 
-    // States path
-    containerG.append('path')
-        .attr('class', 'states')
-        .attr('d', pathGenerator(states));
+    
   })

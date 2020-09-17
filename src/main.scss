@@ -1,5 +1,5 @@
 :root {
-  --color-hover: #3bd902;
+  --color-hover: #e74c3c;
 
   --white: #fff;
   --black: #000;
@@ -43,13 +43,11 @@ svg.legend {
 
 /* COUNTY PATH */
 .county {
-  stroke-width: 0.05px;
-  stroke: var(--white);
+  stroke: none;
 
   &:hover {
-    stroke: var(--black);
-    stroke-opacity: .5;
-    fill: var(--color-hover);
+    stroke: var(--color-hover);
+    stroke-width: 1.5px;
   }
 }
 

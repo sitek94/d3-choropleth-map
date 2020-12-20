@@ -3,7 +3,7 @@ import {
   geoPath,
   zoom,
   scaleQuantize,
-  schemeBuPu,
+  schemePuBuGn,
   extent,
   zoomIdentity,
 } from 'd3';
@@ -66,7 +66,7 @@ loadAndProcessData()
     // Color scale
     const colorScale = scaleQuantize()
       .domain(extent(counties, colorValue))
-      .range(schemeBuPu[9]);
+      .range(schemePuBuGn[9]);
 
     // Append color legend
     legendContainer.append(() => legend({

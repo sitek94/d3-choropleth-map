@@ -36,11 +36,12 @@ body {
 svg.map {
   display: block;
   margin: 0 auto;
+  border: 2px solid var(--gray-30);
 }
 
 /* LEGEND */
 svg.legend {
-  margin: 0 auto;
+  margin: 0 auto 10px;
 }
 
 /* COUNTY PATH */

@@ -21,8 +21,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;  
   background-color: var(--gray-15);
 
-  height: 100vh;
-  padding-top: 10px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* ROOT */

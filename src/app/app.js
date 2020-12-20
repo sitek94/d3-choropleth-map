@@ -12,10 +12,8 @@ import { legend } from './legend';
 import { tooltip } from './tooltip';
 
 // Constants
-const 
-  // Svg dimensions and aspect ratio
-  width = 975,
-  height = 610;
+const width = 975;
+const height = 610;
 
 // Root element
 const root = select('.root');

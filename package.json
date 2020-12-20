@@ -1,7 +1,8 @@
 {
-  "name": "d3-template",
+  "name": "d3-choropleth-map",
   "version": "1.0.0",
-  "description": "Basic template that uses webpack to bundle html, scss and js",
+  "description": "This Choropleth Map shows the data about United States Educational Attainment for years 2010-2014.",
+  "homepage": "https://sitek94.github.io/d3-choropleth-map",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js --open",
